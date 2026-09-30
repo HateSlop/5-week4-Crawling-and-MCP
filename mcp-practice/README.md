@@ -49,9 +49,11 @@ npx @modelcontextprotocol/inspector@2.8.0 python kin_mcp_server.py
 > 버전(`@2.8.0`)을 고정하는 이유: `npx`는 실행할 때마다 최신 버전을 받아와서 화면 구성이 바뀔 수 있습니다.
 
 1. 브라우저에 Inspector가 열리면 `python` 서버 카드의 **토글 스위치**를 켭니다 → **Connected**
-2. 서버 카드를 클릭해 상세 화면으로 들어갑니다
-3. **Tools** 탭 → `search_kin` 선택
-4. `query`에 검색어 입력 → 실행 → 결과 JSON 확인
+2. 화면 맨 위 가운데 메뉴에서 **Tools** 탭 클릭
+3. 왼쪽 **Tools** 목록에서 `search_kin` 클릭
+4. **Query** 칸에 검색어 입력 (Pages는 기본값 1 그대로) → **Execute Tool** 클릭 → 결과 JSON 확인
+
+> 오른쪽 **Messages** 패널에서 `initialize` → `tools/list` → `tools/call` 순서로 오간 메시지를 볼 수 있습니다.
 
 > `conda activate` 한 터미널에서, `mcp-practice` 폴더 안에서 실행하세요. 그렇지 않으면 `No module named 'mcp'` 에러가 나거나 서버 파일을 찾지 못합니다.
 
@@ -75,17 +77,17 @@ conda activate 5-week4
 python -c "import sys; print(sys.executable)"
 ```
 
-출력된 경로를 `.vscode/mcp.json`의 `naver-kin` → `command`에 넣습니다.
+출력된 경로를 `.vscode/mcp.json`의 `naver-kin` → `command`에 넣습니다. (노션 **4주차 사전 준비사항 7번**과 같은 내용)
 
 | 설치 환경 | `command` 예시 |
 |---|---|
-| Windows + Anaconda | `C:\\Users\\내이름\\anaconda3\\envs\\5-week4\\python.exe` |
-| Windows + Miniconda | `C:\\Users\\내이름\\miniconda3\\envs\\5-week4\\python.exe` |
-| Mac + Miniconda | `${userHome}/miniconda3/envs/5-week4/bin/python` |
-| Mac + Anaconda | `${userHome}/anaconda3/envs/5-week4/bin/python` 또는 `/opt/anaconda3/envs/5-week4/bin/python` |
+| Windows + Anaconda | `C:/Users/내이름/anaconda3/envs/5-week4/python.exe` |
+| Windows + Miniconda | `C:/Users/내이름/miniconda3/envs/5-week4/python.exe` |
+| Mac + Anaconda | `/opt/anaconda3/envs/5-week4/bin/python` 또는 `/Users/내이름/anaconda3/envs/5-week4/bin/python` |
+| Mac + Miniconda | `/opt/miniconda3/envs/5-week4/bin/python` 또는 `/Users/내이름/miniconda3/envs/5-week4/bin/python` |
 
-- Windows는 역슬래시를 두 번(`\\`) 써야 합니다.
-- `${userHome}`(홈 폴더), `${workspaceFolder}`(VS Code로 연 폴더)는 VS Code가 자동으로 채워줍니다.
+- **Windows는 출력된 경로의 `\`를 전부 `/`로 바꿔서** 넣으세요. JSON에서 `\`는 특수문자라 그대로 붙여넣으면 오류가 납니다. (`\\`로 두 번 써도 되지만 `/`가 더 간단합니다)
+- `args`의 `${workspaceFolder}`(VS Code로 연 폴더)는 VS Code가 자동으로 채워주니 건드리지 마세요.
 
 ### 3-2. 서버 시작하고 AI에게 시키기
 
