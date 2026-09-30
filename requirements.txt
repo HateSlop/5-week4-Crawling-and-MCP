@@ -4,5 +4,8 @@ pandas
 openpyxl
 selenium
 playwright
+# VS Code에서 .ipynb 실행 + 과제 제출용 .py 변환
+ipykernel
+nbconvert
 # MCP Python SDK: 2.x는 API가 바뀔 예정이라 1.x로 고정
 mcp>=1.27,<2
