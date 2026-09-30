@@ -1,0 +1,14 @@
+{
+  "servers": {
+    "naver-kin": {
+      "type": "stdio",
+      "command": "C:\\Users\\minso\\anaconda3\\envs\\5-week4\\python.exe",
+      "args": ["${workspaceFolder}/mcp-practice/kin_mcp_server.py"]
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}
