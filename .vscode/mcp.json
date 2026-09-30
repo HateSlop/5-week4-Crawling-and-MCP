@@ -2,7 +2,7 @@
   "servers": {
     "naver-kin": {
       "type": "stdio",
-      "command": "C:\\Users\\minso\\anaconda3\\envs\\5-week4\\python.exe",
+      "command": "여기에 env/bin/python 경로를 입력하세요",
       "args": ["${workspaceFolder}/mcp-practice/kin_mcp_server.py"]
     },
     "playwright": {
