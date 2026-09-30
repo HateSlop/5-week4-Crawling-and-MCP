@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "naver-kin": {
+      "command": "/절대경로/5-week4/.venv/bin/python",
+      "args": ["/절대경로/5-week4/mcp-practice/kin_mcp_server.py"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}
