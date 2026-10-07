@@ -36,6 +36,22 @@ def crawl_bestsellers(pages: int = 1) -> list[dict]:
         #   - requests로 요청 → BeautifulSoup으로 파싱
         #   - 책 덩어리마다 title, link, price, rating을 딕셔너리로 만들어 rows에 추가
         #   - 정보가 빠진 책은 try-except로 건너뛰기
+        response = requests.get(URL, params=params, headers=HEADERS)
+        soup = BeautifulSoup(response.text, "html.parser")
+        for book in soup.select("div.ss_book_box"):
+            try:
+                title_tag = book.select_one("a.bo3")
+                price_tag = book.select_one("span.ss_p2")
+                rating_tag = book.select_one("span.star_score")
+
+                rows.append({
+                    "title": title_tag.text.strip(),
+                    "link": title_tag["href"],
+                    "price": price_tag.text.strip() if price_tag else "N/A",
+                    "rating": rating_tag.text.strip() if rating_tag else "평점 없음",
+                })
+            except (AttributeError, TypeError):
+                continue
 
         time.sleep(0.5)
 
@@ -47,10 +63,12 @@ mcp = FastMCP("aladin-bestseller")
 
 
 # TODO 2: 아래 함수 위에 한 줄을 붙여서 MCP 도구로 만드세요
+@mcp.tool()
 def get_bestsellers(pages: int = 1) -> list[dict]:
     """TODO 3: AI가 읽을 도구 설명서를 쓰세요.
-
-    이런 내용이 들어가면 좋아요 (4장 5번 참고)
+    - 용도: 사용자가 알라딘 최신 베스트셀러 도서, 인기 책 추천, 도서 가격 및 평점 정보를 요청할 때 사용합니다.
+    - 입력값 (pages): 조회할 페이지 수 (기본값: 1, 범위: 1~3페이지)
+    - 반환값: 각 도서의 제목(title), 상세 링크(link), 할인가(price), 평점(rating)을 포함하는 딕셔너리 리스트    이런 내용이 들어가면 좋아요 (4장 5번 참고)
       - 이 도구가 무엇을 하는지
       - 언제 쓰면 좋은지 (예: "요즘 인기 있는 책을 알고 싶을 때")
       - 각 입력값의 의미와 범위
