@@ -37,6 +37,20 @@ def crawl_bestsellers(pages: int = 1) -> list[dict]:
         #   - 책 덩어리마다 title, link, price, rating을 딕셔너리로 만들어 rows에 추가
         #   - 정보가 빠진 책은 try-except로 건너뛰기
 
+        response = requests.get(URL, params=params, headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for book in soup.select(".ss_book_box"):
+            try:
+                title_tag = book.select_one(".bo3")
+                rows.append({
+                    "title": title_tag.text.strip(),
+                    "link": title_tag["href"],
+                    "price": book.select_one(".ss_p2").text.strip(),
+                    "rating": book.select_one(".star_score").text.strip(),
+                })
+            except AttributeError:
+                continue
+
         time.sleep(0.5)
 
     return rows
@@ -47,14 +61,19 @@ mcp = FastMCP("aladin-bestseller")
 
 
 # TODO 2: 아래 함수 위에 한 줄을 붙여서 MCP 도구로 만드세요
+@mcp.tool()
 def get_bestsellers(pages: int = 1) -> list[dict]:
     """TODO 3: AI가 읽을 도구 설명서를 쓰세요.
 
-    이런 내용이 들어가면 좋아요 (4장 5번 참고)
-      - 이 도구가 무엇을 하는지
-      - 언제 쓰면 좋은지 (예: "요즘 인기 있는 책을 알고 싶을 때")
-      - 각 입력값의 의미와 범위
-      - 돌려주는 값의 모양
+    알라딘 인터넷 서점의 현재 종합 베스트셀러 목록을 가져오는 도구입니다.
+      
+    사용자가 "요즘 인기 있는 책 알려줘", "알라딘 베스트셀러 찾아줘"와 같이 최근 트렌드나 인기 도서 정보를 요청할 때 사용하세요.
+    
+    Args:
+        pages: 가져올 베스트셀러 목록의 페이지 수입니다. 1페이지당 약 50권의 책 정보를 포함합니다.기본값은 1이며, 최대 3페이지(약 150권)까지만 요청할 수 있습니다.
+               
+    Returns:
+        각 책의 제목(title), 도서 링크(link), 할인가(price), 별점(rating) 정보를 포함하는 딕셔너리들의 리스트를 반환합니다.
     """
     pages = max(1, min(pages, 3))   # AI가 100페이지를 요청해도 3페이지까지만 (안전장치)
     return crawl_bestsellers(pages)
